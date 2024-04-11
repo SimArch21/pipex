@@ -6,7 +6,7 @@
 #    By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 11:28:35 by simarcha          #+#    #+#              #
-#    Updated: 2024/03/18 13:08:17 by simarcha         ###   ########.fr        #
+#    Updated: 2024/04/10 18:43:14 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,10 @@ OBJ_SRCS		= $(SRCS:.c=.o)
 #UTILS - The annexes functions that I used for this project
 UTILS_DIR		= utils/
 UTILS_FILES		= get_next_line.c \
-				  get_next_line_utils.c
+				  ft_split.c \
+				  ft_split_for_slash.c \
+				  libft_functions.c \
+				  libft_list_functions.c
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES)) 
 OBJ_UTILS		= $(UTILS:.c=.o)
 
@@ -43,7 +46,7 @@ all:			$(NAME)
 				$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME):		$(OBJ_UTILS) $(OBJ_SRCS)	
-				$(CC) $(OBJ_UTILS) $(OBJ_SRCS) -o $(NAME)
+				$(CC) $(CFLAGS) $(OBJ_UTILS) $(OBJ_SRCS) -o $(NAME)
 
 clean:
 				$(RM) $(OBJ_UTILS) $(OBJ_SRCS)
