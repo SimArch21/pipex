@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:15:22 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/19 10:17:22 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:58:35 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,15 @@ void	get_lines_from_heredoc(char *limiter)
 	{
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
-//		if (!line)
-//			print_error("failed with GNL");
 		if (go_out_from_heredoc(line, limiter))
 		{
+			free(line);
 			break ;
 		}
 		ft_putstr_fd(line, pipe_fd[WRITE_END]);
 		free(line);
 	}
-	//free(line);
 	close(pipe_fd[WRITE_END]);
 	dup2(pipe_fd[READ_END], STDIN_FILENO);
 	close(pipe_fd[READ_END]);
 }
-

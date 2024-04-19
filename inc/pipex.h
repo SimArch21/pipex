@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:30:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/19 14:23:30 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:19:04 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>//dup, dup2, write, execve, access, pipe
 # include <fcntl.h> //open, close
 # include "get_next_line.h"
+# include "../utils/ft_printf/ft_printf.h"
 
 # define WRITE_END	1
 # define READ_END	0

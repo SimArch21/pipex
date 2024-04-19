@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:23:39 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/16 20:26:20 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:20:07 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_path_from_env(char **env)
 
 //this functions locates where the command is in our path
 //and checks if we have the permissions to execute the command
-char	*create_command(char *argv, char **env)//you have to free the command once used
+char	*create_command(char *argv, char **env)//you have to free once used
 {
 	char	*path;
 	char	**array;
@@ -62,7 +62,7 @@ char	*create_command(char *argv, char **env)//you have to free the command once 
 		print_error("failed creating the variables");
 	while (array[x])
 	{
-		command = ft_strjoin(array[x], cmdarg[0]);//you test only the first command
+		command = ft_strjoin(array[x], cmdarg[0]);
 		if (access(command, X_OK) == 0)
 			return (free_array(array), free_array(cmdarg), free(path), command);
 		free(command);

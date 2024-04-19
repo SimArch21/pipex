@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:28:04 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/19 15:10:06 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:36:14 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,23 @@ int	manage_infile(char *infile)
 	}
 }
 
+//I had to create this function for the one below
+//Because I had more than 25 lines and the norminette wasn't happy
+void	parent_process(int pipe_fd_write, int pipe_fd_read)
+{
+	close(pipe_fd_write);
+	dup2(pipe_fd_read, STDIN_FILENO);
+	close(pipe_fd_read);
+}
+
 //	fildes[0] = READ_END;
 //	fildes[1] = WRITE_END;
-void	manage_command(char *cmd_path, char **array_cmd, char **env)
+void	manage_command(char *cmd, char **env)
 {
 	int		pipe_fd[2];
 	int		pid;
+	char	*cmd_path;
+	char	**array_cmd;
 
 	if (pipe(pipe_fd) == -1)
 		print_error("pipe failed");
@@ -64,15 +75,19 @@ void	manage_command(char *cmd_path, char **array_cmd, char **env)
 		close(pipe_fd[READ_END]);
 		dup2(pipe_fd[WRITE_END], STDOUT_FILENO);
 		close(pipe_fd[WRITE_END]);
+		cmd_path = create_command(cmd, env);
+		array_cmd = ft_split(cmd, ' ');
+		if (!array_cmd || !cmd_path)
+			print_error("failed to create array_cmd");
+		write(2, "hijo 1 - manage_command\n", 24); 
+		ft_printf_stderror("hijo 1 PID: %i\n", getpid());
+		ft_printf_stderror("hijo 1 Parent PID: %i\n\n", getppid());
+//		sleep(5);
 		if (execve(cmd_path, array_cmd, env) == -1)
 			print_error("execve failed");
 	}
 	else
-	{
-		close(pipe_fd[WRITE_END]);
-		dup2(pipe_fd[READ_END], STDIN_FILENO);
-		close(pipe_fd[READ_END]);
-	}
+		parent_process(pipe_fd[WRITE_END], pipe_fd[READ_END]);
 }
 
 void	manage_outfile(char *outfile, char *last_cmd, char **env)
@@ -99,6 +114,10 @@ void	manage_outfile(char *outfile, char *last_cmd, char **env)
 		array_cmd = ft_split(last_cmd, ' ');
 		if (!cmd_path || !array_cmd)
 			print_error("failed to create the command");
+		write(2, "hijo 2 - manage_outfile\n", 24); 
+		ft_printf_stderror("hijo 2 PID: %i\n", getpid());
+		ft_printf_stderror("hijo 2 Parent PID: %i\n\n", getppid());
+//		sleep(5);
 		if (execve(cmd_path, array_cmd, env) == -1)
 			print_error("execve failed");
 	}
@@ -115,9 +134,8 @@ int	main(int argc, char **argv, char **env)
 {
 	int		i;
 	int		j;
-	char	*cmd_path;
-	char	**array_cmd;
 
+	printf("Parent PID: %i\n\n", getpid());
 	if (argc < 5)
 		print_error("please follow this instructions: \
 				./pipex infile 'cmd1' 'cmd2' 'cmd..' outfile");
@@ -132,14 +150,12 @@ int	main(int argc, char **argv, char **env)
 		i++;
 	while (++i < argc - 2)
 	{
-		cmd_path = create_command(argv[i], env);
-		array_cmd = ft_split(argv[i], ' ');
-		if (!array_cmd || !cmd_path)
-			print_error("failed to create array_cmd");
-		manage_command(cmd_path, array_cmd, env);
+		manage_command(argv[i], env);
+//		sleep(5);
 	}
 	manage_outfile(argv[argc - 1], argv[i], env);
 	while (++j < argc - 2)
 		wait(NULL);
+	printf("Parent PID: %i (still alive until this line)\n\n", getpid());
 	return (0);
 }
