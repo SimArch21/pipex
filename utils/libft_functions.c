@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 12:41:26 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/10 18:42:45 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:53:22 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[i + j] = '\0';
 	return (str);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = -1;
+	while (s[++i] != '\0')
+		write(fd, &s[i], 1);
 }

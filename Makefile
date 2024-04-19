@@ -6,7 +6,7 @@
 #    By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 11:28:35 by simarcha          #+#    #+#              #
-#    Updated: 2024/04/10 18:43:14 by simarcha         ###   ########.fr        #
+#    Updated: 2024/04/19 10:18:54 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ INCLUDE			= $(addprefix $(INCLUDE_DIR), $(INCLUDE_FILES))
 
 #SRCS - Where the main files for this project are located
 SRCS_DIR		= srcs/
-SRCS_FILES		= main.c
+SRCS_FILES		= pipex4.c \
+				create_command.c \
+				manage_heredoc.c
 SRCS			= $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJ_SRCS		= $(SRCS:.c=.o)
 
@@ -34,8 +36,7 @@ UTILS_DIR		= utils/
 UTILS_FILES		= get_next_line.c \
 				  ft_split.c \
 				  ft_split_for_slash.c \
-				  libft_functions.c \
-				  libft_list_functions.c
+				  libft_functions.c 
 UTILS			= $(addprefix $(UTILS_DIR), $(UTILS_FILES)) 
 OBJ_UTILS		= $(UTILS:.c=.o)
 

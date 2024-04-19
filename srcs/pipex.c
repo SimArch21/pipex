@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 17:17:00 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/11 20:46:26 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/13 15:27:45 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	create_first_process();
 	return (0);
 }*/
 
-int	main(int argc, char **argv)//, char **env)
+/*int	main(int argc, char **argv)//, char **env)
 {
 	int		i;
 //	char	*cmd;
@@ -118,16 +118,12 @@ int	main(int argc, char **argv)//, char **env)
 		{
 			//we want to read what's the infile
 			//we want to execute the first command
-//			infile = open("../infile", O_RDONLY);
-//			printf("infile = %i\n", infile);
-//			bytes_read = read(infile, buffer, 29);
-//			printf("bytes read = %i\n", (int)bytes_read);
-//			printf("what we read: %s\n", buffer);
 			infile = open("infile", O_RDONLY);
 			printf("infile = %i\n", infile);
 			bytes_read = read(infile, buffer, sizeof(buffer));
 			printf("bytes read = %i\n", bytes_read);
 			printf("%s", buffer);
+
 		}
 		i++;
 //		free(cmd);
@@ -136,7 +132,7 @@ int	main(int argc, char **argv)//, char **env)
 //	close(pip[WRITE_END]);
 //	close(pip[READ_END]);
 	return (0);
-}
+}*/
 
 /*int	main(int argc, char **argv, char **env)
 {
@@ -162,3 +158,36 @@ int	main(int argc, char **argv)//, char **env)
 	ft_lstclear(&lst);
 	return (0);
 }*/
+
+//si l'infile n'existe pas, alors on n'execute pas la commande et on execute seulement la deuxieme commande, argv[2]
+//dans tous les cas, il faudra creer l'outfile a la fin pour y mettre le resultat de la deuxieme commande
+//si l'infile existe, on lit ce qu'il y a dans l'infile => on stock ce qu'on a lut dans un buffer
+//on execute la premiere commande
+//
+//
+//on veut garder le resultat de la premiere commande, independemmenent de l'infile 
+//puis executer la deuxieme commande
+//et mettre le resultat dans l'outfile
+//how to execute the first command
+//first we have to know which command it is
+//know his command: for example if it's "ls", his location would be "/bin/ls"
+//and execute it 
+//then when we executed it, we want to write the result in the pipe
+//we will read the pipe and execute the second command
+//and we will write the output in the outfile
+
+int	main(int argc char ** argv, char **env)
+{
+	int		i;
+	char	*cmd;
+
+	if (argc != 5)
+		write(2, "we need 5 arguments\n", 20);
+	i = 1;
+	while (argv[i] && i < argc - 1)
+	{
+		cmd = create_command(argv[i], env);
+		i++;
+	}
+	return (0);
+}
