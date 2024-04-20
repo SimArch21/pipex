@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:38:21 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/19 17:12:13 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:32:58 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,6 @@
 	return (0);
 }*/
 
-/*int	main(void)
-{
-	char	*line;
-	int		i;
-
-	i = 0;
-	while (i < 5)
-	{
-		line = get_next_line(0);
-		write(1, line, ft_strlen(line));
-		free(line);
-		i++;
-	}
-	return (0);
-}*/
-
-/*int	main(void)
-{
-	int	fd;
-
-	fd = open("infile", O_RDONLY);
-	if (fd == -1)
-		perror("open failed");
-	return (0);
-}*/
-
 //Small examples to understand the fork function
 //pid_t	fork(void);
 /*int	main(void)
@@ -108,6 +82,8 @@
 }*/
 
 //Small examples to understand the pipe function
+//	fildes[0] = READ_END;
+//	fildes[1] = WRITE_END;
 //int	pipe(int fildes[2]);
 /*int	main(void)
 {
@@ -115,8 +91,6 @@
 	int	tube;
 	char	buffer[256];
 
-//	fildes[0] = READ_END;
-//	fildes[1] = WRITE_END;
 	tube = pipe(fildes);
 	printf("tube = %i\n", tube);
 	printf("fildes[0] = %i\n", fildes[0]);
@@ -128,52 +102,3 @@
 	close(fildes[1]);
 	return (0);
 }*/
-
-
-//we want know why we choose STDOUT_FILENO
-//and if we can read after closing the WRITE_END => we can thanks to the READ_END
-//yes we can dice marta even after it's closed
-/*int	main(void)
-{
-	int	pipe_fd[2];
-	char	buffer[256];
-
-	if (pipe(pipe_fd) == -1)
-		perror("pipe failed");
-
-//	close(pipe_fd[READ_END]);
-	dup2(pipe_fd[WRITE_END], 10);//WHY DID YOU CHOOSE THE STDOUT_FILENO
-	close(pipe_fd[WRITE_END]);
-
-	write(10, "hola", 4);
-	if (read(pipe_fd[READ_END], buffer, sizeof(buffer)) <= 0)
-		perror("read failed");
-	write(2, buffer, ft_strlen(buffer));
-	close(pipe_fd[READ_END]);
-	return (0);
-}*/
-
-/*int	main(int argc, char **argv, char **env)
-{
-	int		pid;
-	char	**array_cmd_ls;
-	char	**array_cmd_pwd;
-
-	array_cmd_ls = ft_split(argv[1], ' ');
-	array_cmd_pwd = ft_split(argv[2], ' ');
-	pid = fork();
-	if (pid < 0)
-		perror("fork failed");
-	if (pid == 0)
-	{
-		execve("/bin/ls", array_cmd_ls, env);
-	}
-	else
-	{
-		execve("/bon/pwd", array_cmd_pwd, env);
-	}
-	argc = 0;
-	return (0);
-}*/
-
-
