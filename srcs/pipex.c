@@ -6,12 +6,13 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:28:04 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/20 18:30:31 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/20 22:02:16 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 //int	dup2(int oldfd, int newfd);
+//int	dup2(int the_one_where_we_really_write, int the_current_one);
 
 //in this function, if we can't open the infile, we send an error msg to say 
 //that it was not possible to open it. We don't execute the first command
@@ -77,7 +78,7 @@ void	manage_command(char *cmd, char **env)
 		cmd_path = create_command(cmd, env);
 		array_cmd = ft_split(cmd, ' ');
 		if (!array_cmd || !cmd_path)
-			print_error("failed to create array_cmd");
+			print_error("failed to create the command or to create the path");
 		if (execve(cmd_path, array_cmd, env) == -1)
 			print_error("execve failed");
 	}
@@ -85,7 +86,7 @@ void	manage_command(char *cmd, char **env)
 		parent_process(pipe_fd[WRITE_END], pipe_fd[READ_END]);
 }
 
-void	manage_outfile(char *outfile, char *last_cmd, char **env)
+void	manage_outfile(char *outfile, char *last_cmd, char **env, int heredoc)
 {
 	int		fd_outfile;
 	int		pipe_fd[2];
@@ -99,7 +100,10 @@ void	manage_outfile(char *outfile, char *last_cmd, char **env)
 	else if (pid == 0)
 	{
 		close(pipe_fd[READ_END]);
-		fd_outfile = open(outfile, O_CREAT | O_TRUNC | O_RDWR, 0644);
+		if (heredoc == 0)
+			fd_outfile = open(outfile, O_CREAT | O_TRUNC | O_RDWR, 0644);
+		else
+			fd_outfile = open(outfile, O_CREAT | O_APPEND | O_RDWR, 0644);
 		if (fd_outfile == -1)
 			print_error("open failed");
 		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
@@ -108,7 +112,7 @@ void	manage_outfile(char *outfile, char *last_cmd, char **env)
 		cmd_path = create_command(last_cmd, env);
 		array_cmd = ft_split(last_cmd, ' ');
 		if (!cmd_path || !array_cmd)
-			print_error("failed to create the command");
+			print_error("failed to create the command or to create the path");
 		if (execve(cmd_path, array_cmd, env) == -1)
 			print_error("execve failed");
 	}
@@ -125,23 +129,27 @@ int	main(int argc, char **argv, char **env)
 {
 	int		i;
 	int		j;
+	int		heredoc;
+	int		status;
 
 	if (argc < 5)
 		print_error("please follow this instructions: \
 				./pipex infile 'cmd1' 'cmd2' 'cmd..' outfile");
 	i = 1;
 	j = 1;
+	heredoc = 0;
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 	{
 		get_lines_from_heredoc(argv[2]);
+		heredoc = 1;
 		i++;
 	}
 	else if (manage_infile(argv[1]) == 1)
 		i++;
 	while (++i < argc - 2)
 		manage_command(argv[i], env);
-	manage_outfile(argv[argc - 1], argv[i], env);
-	while (++j < argc - 2)
-		wait(NULL);
+	manage_outfile(argv[argc - 1], argv[i], env, heredoc);
+	while (++j < argc - 1)
+		wait(&status);
 	return (0);
 }

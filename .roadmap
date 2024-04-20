@@ -1,0 +1,25 @@
+0)you have to play a lot with all the different commands in the bash => with and without the pipe
+
+1) you have to know and play a bit with the given functions that you don't know, especially:
+	- dup2
+	- execve ⚠️  when using this function, the process/programm dies instantly => the following lines for the same pprocess won't compile
+	- access
+	- fork 
+	- pipe
+	- wait
+
+2) we want a function that take the command written by the user in the command line and find it's location
+	for example a function that returns "/bin/ls" for the ls command (like the whereis command in MACOS)
+	the full path of the executable command
+
+3) we need to split in array the commands written by the user if there is some specification.
+	"ls -l" becomes {"ls", "-l", NULL}
+
+what we really want to do ?
+1 - we want to read what's in the infile (argv[1])
+2 - execute the first command given by the user with this infile
+3 - with the result of the step 2, we want to execute the third command
+4 - then with the result of the step 3, write the result in the outfile (argv[4])
+
+
+Maybe you should play with pipe and fork functions

@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:23:39 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/19 15:20:07 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/20 21:50:20 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ char	*create_command(char *argv, char **env)//you have to free once used
 		free(command);
 		x++;
 	}
-	return (free_array(array), free_array(cmdarg), free(path), NULL);
+	return (free_array(array), free_array(cmdarg), free(path), argv);
 }
