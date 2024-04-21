@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:28:04 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/20 22:02:16 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/21 11:35:42 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,10 @@ void	manage_outfile(char *outfile, char *last_cmd, char **env, int heredoc)
 			fd_outfile = open(outfile, O_CREAT | O_APPEND | O_RDWR, 0644);
 		if (fd_outfile == -1)
 			print_error("open failed");
-		if (dup2(fd_outfile, STDOUT_FILENO) == -1)
-			print_error("dup2 failed");
+		dup2(fd_outfile, STDOUT_FILENO)
 		close(fd_outfile);
 		cmd_path = create_command(last_cmd, env);
 		array_cmd = ft_split(last_cmd, ' ');
-		if (!cmd_path || !array_cmd)
-			print_error("failed to create the command or to create the path");
 		if (execve(cmd_path, array_cmd, env) == -1)
 			print_error("execve failed");
 	}
