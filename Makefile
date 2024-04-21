@@ -6,7 +6,7 @@
 #    By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 11:28:35 by simarcha          #+#    #+#              #
-#    Updated: 2024/04/20 18:25:49 by simarcha         ###   ########.fr        #
+#    Updated: 2024/04/21 12:11:08 by simarcha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ INCLUDE			= $(addprefix $(INCLUDE_DIR), $(INCLUDE_FILES))
 #SRCS - Where the main files for this project are located
 SRCS_DIR		= srcs/
 SRCS_FILES		= pipex.c \
+				manage_command.c \
 				create_command.c \
 				manage_heredoc.c
 SRCS			= $(addprefix $(SRCS_DIR), $(SRCS_FILES))

@@ -6,7 +6,7 @@
 /*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:30:35 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/19 20:19:04 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/04/21 12:13:16 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,8 @@ char	*create_command(char *argv, char **env);
 
 //manage_heredoc.c
 void	get_lines_from_heredoc(char *limiter);
+
+//manage_command.c
+void	manage_command(char *cmd, char **env);
 
 #endif
