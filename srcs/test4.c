@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   test4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: simarcha <simarcha@student.42barcel>       +#+  +:+       +#+        */
+/*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:38:21 by simarcha          #+#    #+#             */
-/*   Updated: 2024/04/20 18:32:58 by simarcha         ###   ########.fr       */
+/*   Updated: 2024/09/29 13:09:13 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
+#include <stdio.h>
 
 //Small examples to understand the access function
 //int access(const char *path, int FLAG);
@@ -40,10 +41,13 @@
 	write(1, "marta\n", 6);
 	dup2(1, 10);
 	write(10, "my name is simon\n", 17);
-	fd = open("infile", O_RDWR); 
+	close(1);
+	write(1, "1 is closed\n", 12);
+	write(10, "10 is still open\n", 17);//msg visible in the std_out
+	fd = open("infile", O_RDWR);
 	if (fd == -1)
 		perror("open failed, dup2 not executed");
-	dup2(fd, 10);
+	dup2(fd, 10);//now 10 will write in fd only
 	write(10, "this is a test\n", 15);
 	return (0);
 }*/
