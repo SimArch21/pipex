@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: simarcha <simarcha@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 16:38:21 by simarcha          #+#    #+#             */
-/*   Updated: 2024/09/29 13:09:13 by simarcha         ###   ########.fr       */
+/*   Created: 2024/09/30 11:02:01 by simarcha          #+#    #+#             */
+/*   Updated: 2024/09/30 11:14:22 by simarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 //int access(const char *path, int FLAG);
 /*int main(void)
 {
-    char *filename = "infile";
+	char *filename = "infile";
 
-    if (access(filename, F_OK) == 0)
-        printf("The file \"%s\" exists.\n", filename);
-    else
-        printf("The file \"%s\" doesn't exists.\n", filename);
+	if (access(filename, F_OK) == 0)
+		printf("The file \"%s\" exists.\n", filename);
+	else
+		printf("The file \"%s\" doesn't exists.\n", filename);
 
 	if (access(filename, X_OK) == 0)
 		printf("You have the rights to execute the \"%s\".\n", filename);
 	else
 		printf("You don't have the rights to execute the \"%s\".\n", filename);
 
-    return (0);
+	return (0);
 }*/
 
 //Small examples to understand the dup2 function
@@ -40,9 +40,9 @@
 
 	write(1, "marta\n", 6);
 	dup2(1, 10);
-	write(10, "my name is simon\n", 17);
+	write(10, "my name is simon\n", 17);//msg visible in the std_out
 	close(1);
-	write(1, "1 is closed\n", 12);
+	write(1, "1 is closed\n", 12);//msg NOT visible in the std_out
 	write(10, "10 is still open\n", 17);//msg visible in the std_out
 	fd = open("infile", O_RDWR);
 	if (fd == -1)
@@ -74,9 +74,13 @@
 	int	pid;
 
 //	wait(NULL);
+	write(1, "wait\n", 5);
 	pid = fork();
 	if (pid == 0)
+	{
+		//sleep(1);
 		write(1, "hijo\n", 5);
+	}
 	else if (pid > 0)
 	{
 		wait(NULL);
@@ -104,5 +108,42 @@
 	printf("buffer = %s\n", buffer);
 	close(fildes[0]);
 	close(fildes[1]);
+	return (0);
+}*/
+
+//Small examples to understand the wait function
+//pid_t wait(int *status);
+//pid_t waitpid(pid_t pid, int *status, int options);
+/*int	main(void)
+{
+	int pid;
+	int status;
+
+	printf("Parent: %d\n", getpid());
+	pid = fork();
+	printf("pid = %d\n", pid);//two processes are entering in this line => 2 prints
+	if (pid == 0)
+	{
+		printf("Child %d\n", getpid());
+		sleep(2);
+		exit(EXIT_SUCCESS);
+	}
+
+//Comment from here to...
+	//Parent waits process pid (child)
+	wait(&status);
+	printf("status = %i\n", status);
+	waitpid(pid, &status, 0);//these 2 lines are waiting for the exact same pid
+	//with the second one, you will have more data about the status, for signal for example
+	printf("status = %i\n", status);
+	
+	//Option is 0 since I check it later
+	if (WIFSIGNALED(status))
+		printf("Error\n");
+	else if (WEXITSTATUS(status))
+		printf("Exited Normally\n");
+//To Here and see the difference
+	printf("Parent: %d\n", getpid());
+
 	return (0);
 }*/
